@@ -20,9 +20,10 @@ namespace TodoApi.Controllers
 
         // GET: api/TodoItems
         [HttpGet]
-        [Authorize("read:todoitems")]
+        //[Authorize("read:todoitems")]
         public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
         {
+            //throw new AppException("Error de validación");
             return await _context.TodoItems
                 .Select(x => ItemToDTO(x))
                 .ToListAsync();
@@ -45,12 +46,13 @@ namespace TodoApi.Controllers
         // PUT: api/TodoItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize("write:todoitems")]
+        //[Authorize("write:todoitems")]
         public async Task<IActionResult> UpdateTodoItem(long id, TodoItemDTO todoItemDTO)
         {
             if (id != todoItemDTO.Id)
             {
-                return BadRequest();
+                //return BadRequest();
+                throw new AppException("No existe el ID de ToDo");
             }
 
             var todoItem = await _context.TodoItems.FindAsync(id);
